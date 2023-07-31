@@ -27,9 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> deleteTodo(Todo todo) async {
-    await delete(todo);
+    final deletedTodo = await delete(todo);
     setState(() {
-      taskList.removeWhere((e) => e.id == todo.id);
+      taskList.removeWhere((e) => e.id == deletedTodo.id);
     });
   }
 

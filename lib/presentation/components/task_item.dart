@@ -1,14 +1,13 @@
 import "package:flutter/material.dart";
 import "package:intl/intl.dart";
 import "package:todo_app_xp/domain/entities/todo.dart";
-import "package:todo_app_xp/domain/usecases/edit_todo_usecase.dart";
 
 class TaskItem extends StatelessWidget {
-  void Function(Todo todo) editTodo;
-  void Function(Todo todo) deleteTodo;
+  final void Function(Todo todo) editTodo;
+  final void Function(Todo todo) deleteTodo;
   final Todo todo;
 
-  TaskItem(
+  const TaskItem(
       {super.key,
       required this.todo,
       required this.editTodo,

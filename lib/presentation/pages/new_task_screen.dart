@@ -101,14 +101,8 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                   date: selectedDate.text,
                   notify: notify,
                 );
-                try {
-                  var result = await CreateTodoUsecase().call(todo);
-                  if (result) {
-                    Navigator.pop(context, todo);
-                  }
-                } catch (e) {
-                  debugPrint("$e");
-                }
+                final newTodo = await CreateTodoUsecase().call(todo);
+                Navigator.pop(context, newTodo);
               },
               child: const Text("Salvar"),
             ),
