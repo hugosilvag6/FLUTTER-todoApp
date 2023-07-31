@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:todo_app_xp/domain/entities/todo.dart';
+import 'package:todo_app_xp/domain/usecases/delete_todo_usecase.dart';
+import 'package:todo_app_xp/domain/usecases/edit_todo_usecase.dart';
 import 'package:todo_app_xp/domain/usecases/get_all_todos_usecase.dart';
 
 import 'package:todo_app_xp/presentation/components/task_item.dart';
@@ -14,19 +16,34 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final getAll = GetAllTodosUsecase();
-  List<Widget> taskList = [];
+  final delete = DeleteTodoUsecase();
+  final edit = EditTodoUsecase();
+  List<Todo> taskList = [];
+
+  Future<void> editTodo(Todo todo) async {
+    setState(() {
+      edit(todo);
+    });
+  }
+
+  Future<void> deleteTodo(Todo todo) async {
+    await delete(todo);
+    setState(() {
+      taskList.removeWhere((e) => e.id == todo.id);
+    });
+  }
 
   Future<void> getTaskList() async {
     var list = await getAll();
     setState(() {
-      taskList = list.map((e) => TaskItem(todo: e)).toList();
+      taskList = list;
     });
   }
 
   void addTodo(Todo? todo) {
     if (todo != null) {
       setState(() {
-        taskList.add(TaskItem(todo: todo));
+        taskList.add(todo);
       });
     }
   }
@@ -60,7 +77,11 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: ListView(
         scrollDirection: Axis.vertical,
-        children: [...taskList],
+        children: [
+          ...taskList
+              .map((e) => TaskItem(todo: e, editTodo: editTodo, deleteTodo: deleteTodo))
+              .toList()
+        ],
       ),
     );
   }

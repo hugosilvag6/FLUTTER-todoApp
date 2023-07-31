@@ -12,4 +12,7 @@ class TodoRepository {
   Future<bool> edit({required Todo todo}) async { 
     return await FirebaseConsumer.edit(todo.toMap()); 
   }
+  Future<bool> delete({required Todo todo}) async {
+    return await FirebaseConsumer.delete(todo);
+  }
 }

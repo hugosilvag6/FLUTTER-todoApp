@@ -4,9 +4,9 @@ class Todo {
   final String description;
   final String date;
   final bool notify;
-  final bool completed;
+  bool completed;
 
-  const Todo(
+  Todo(
       {required this.id,
       required this.title,
       required this.description,
